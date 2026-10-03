@@ -195,6 +195,12 @@ PHP
 done
 
 # ---------------------------------------------------------------------------------------------
+b "5b/8 Imágenes de Docker de los eggs"
+# Sin ellas, Wings aborta la instalación del primer servidor («No such image»). Ver pull-images.sh.
+PULL="$(dirname "$(readlink -f "$0")")/pull-images.sh"
+if [ -f "$PULL" ]; then bash "$PULL" --install && ok "Imágenes descargadas y revisión programada cada 30 min"; else warn "No encuentro $PULL"; fi
+
+# ---------------------------------------------------------------------------------------------
 b "6/8 Nodo ($NODE_DOMAIN) y su certificado"
 cat > "/etc/nginx/sites-available/$NODE_DOMAIN" <<NGINX
 server {

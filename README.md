@@ -26,6 +26,8 @@ Opcional: si antes copias tu `.env.local` a `/tmp/panel.env`, se usa en vez de p
 |---|---|
 | `install.sh` | Instalador principal |
 | `deploy/install-engine.sh` | Instala Pelican + Wings sin tocar el navegador |
+| `deploy/pull-images.sh` | Descarga (y mantiene al día) las imágenes de Docker de los eggs: sin ellas Wings no puede instalar servidores |
+| `diagnose.sh` | Reúne el estado del motor y del panel en un texto (solo lee, sin secretos) |
 | `compose.yml` | Cómo se ejecuta el panel |
 | `deploy/update.sh` + `mc-panel-update.*` | Actualización automática (systemd) |
 

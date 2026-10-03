@@ -56,7 +56,7 @@ ok "Docker listo"
 
 b "2/7 Archivos de despliegue"
 mkdir -p "$DIR/deploy"
-for f in compose.yml deploy/install-engine.sh deploy/update.sh deploy/mc-panel-update.service deploy/mc-panel-update.timer; do
+for f in compose.yml deploy/install-engine.sh deploy/pull-images.sh deploy/update.sh deploy/mc-panel-update.service deploy/mc-panel-update.timer; do
   curl -fsSL "$RAW/$f" -o "$DIR/$f" || die "No pude descargar $RAW/$f"
 done
 chmod +x "$DIR"/deploy/*.sh
@@ -74,6 +74,8 @@ else
     *) bash "$DIR/deploy/install-engine.sh" ;;
   esac
 fi
+# Imágenes de Docker de los eggs (imprescindible para crear servidores; también en máquinas con motor ya instalado).
+bash "$DIR/deploy/pull-images.sh" --install || warn "No pude preparar las imágenes de Docker; mira: bash $DIR/deploy/pull-images.sh"
 # Si el motor dejó sus datos, se usan como valores por defecto (no se vuelven a preguntar).
 if [ -f "$DIR/engine.env" ] && [ ! -f "$DIR/.env.production" ]; then
   set -a; . "$DIR/engine.env"; set +a
