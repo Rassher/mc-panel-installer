@@ -1,0 +1,9 @@
+[Unit]
+Description=Actualizar el panel de servidores desde GitHub
+After=docker.service network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+# Ajusta la ruta a donde esté el proyecto en la VPS.
+ExecStart=/opt/mc-panel/deploy/update.sh

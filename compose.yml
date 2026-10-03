@@ -1,0 +1,19 @@
+# Despliegue del panel en la VPS. Variables en un archivo .env.production (nunca en git).
+# La imagen la construye y publica GitHub Actions; la VPS solo la descarga:
+#   docker compose up -d            (primera vez)
+#   deploy/update.sh                (actualizar; se ejecuta solo cada minuto, ver README)
+services:
+  panel:
+    image: ghcr.io/rassher/mc-panel:latest
+    restart: unless-stopped
+    env_file: .env.production
+    volumes:
+      - panel-data:/app/data
+    # Solo accesible desde el propio servidor: delante va un proxy con HTTPS (nginx).
+    ports:
+      - "127.0.0.1:3000:3000"
+      # SFTP (FileZilla): este sí va abierto a Internet; autentica con la contraseña propia de cada admin.
+      - "2222:2222"
+
+volumes:
+  panel-data:
